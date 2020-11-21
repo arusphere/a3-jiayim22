@@ -39,9 +39,18 @@ highest_aapi_jail_pop <- incarceration %>%
 
 # trends over time chart
 # the trend of your measure over time
+trends_chart <- ggplot(trend_mean_aapi_jail_rate) +
+  geom_point(mapping = aes(x = year, y = aapi_jail_pop_rate)) +
+  geom_line(mapping = aes(x = year, y = aapi_jail_pop_rate)) +
+  scale_x_continuous(breaks = seq(2008, 2018, by = 1)) +
 
-
+  labs(
+    title = "Average Jail Incarceration Rate of Asian American and Pacific Islanders Across All Counties from 2008 to 2018",
+    x = "year",
+    y = "jail incarceration rate per 100,000 residents"
+  )
 
 # variable comparison chart
+
 
 # map
