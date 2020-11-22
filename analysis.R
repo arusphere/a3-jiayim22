@@ -1,4 +1,5 @@
 library(tidyverse)
+library(maps)
 
 incarceration <- read.csv("https://raw.githubusercontent.com/vera-institute/incarceration-trends/master/incarceration_trends.csv")
 
@@ -62,5 +63,36 @@ comparison_chart <- ggplot(incarceration) +
     y = "Black Jail Incarceration Population"
   )
 
+map_aapi <- incarceration  %>%
+  filter(year == 2016) %>%
+  select(fips, aapi_jail_pop_rate)
+
+county_shapes <- map_data("county") %>%
+  unite(polyname, region, subregion, sep = ",") %>%
+  left_join(county.fips, by = "polyname")
+
+map_data <- county_shapes %>%
+  left_join(map_aapi, by = "fips")
+
+blank_theme <- theme_bw() +
+  theme(
+    axis.line = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank()
+  )
 
 # map
+map <- ggplot(map_data) +
+  geom_polygon(mapping = aes(x = long, y = lat, group = group,
+                             fill = aapi_jail_pop_rate)
+               , color = "white", size = 0.1) +
+  coord_map() +
+  scale_fill_continuous(low = "#132B43", high = "Red") +
+  labs(fill = "Asian American and Pacific Islander Jail Incarceration Rate (per 100,000 residents)") +
+  blank_theme
+
