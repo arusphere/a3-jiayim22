@@ -6,25 +6,40 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+source("analysis.R")
+library("knitr")
 ```
 
-## R Markdown
+## Introduction + Summary Information
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+I am focusing on Asian American and Pacific Islander (aapi) jail incarceration population and population rate. This analysis is based on the incarceration trends dataset provided by Vera Institute of Justice. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+From working with the dataset, average value of aapi jail population rate across all the counties in 2018 is `r mean_aapi_jail_rate_2018`, while that of 2008 is `r mean_aapi_jail_rate_2008`. The trend of average value of aapi jail population rate across all the counties from 2008 to 2018 is shown below. 
 
-```{r cars}
-summary(cars)
+```{r trend_mean_aapi_jail_rate, echo=FALSE}
+show(trend_mean_aapi_jail_rate)
 ```
 
-## Including Plots
+The location(s) of the highest value of aapi jail incarceration rate was recorded in 2018 was `r highest_aapi_jail_rate$county_name`, `r highest_aapi_jail_rate$state` was a number of `r highest_aapi_jail_rate$aapi_jail_pop_rate`. The location(s) of highest value of aapi jail incarceration population in 2018 was `r highest_aapi_jail_pop$county_name`, `r highest_aapi_jail_pop$state` with the number of `r highest_aapi_jail_pop$aapi_jail_pop`. 
 
-You can also embed plots, for example:
+## Trends over time Chart
+The trends I chose to explore here is the average jail incarceration rate for aapi across all counties from 2008 to 2018. I wanted to explore this to see the trend of this variable and it has a downward slope over the years. 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r, echo=FALSE}
+trends_chart
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Variable Comparison Chart
+The variables I chose to explore is aapi jail incarceration population and total jail population. From the chart, we can see that there is a somewhat positive relationship between the two variables in that when total jail incarceration population increases, aapi jail incarceration population also increases. 
+
+```{r, echo=FALSE}
+comparison_chart
+```
+
+## Map
+This map is one that shows aapi jail incarceration rate (per 100,000 people). From this map we can see that most counties has a rate closer to 0, which can indicate two things: that the number of aapi incarcerated people is extremely low, or that the percentage of aapi in that region is very low. 
+
+```{r, echo=FALSE}
+map
+```
+

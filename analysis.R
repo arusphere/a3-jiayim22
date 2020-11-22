@@ -53,16 +53,17 @@ trends_chart <- ggplot(trend_mean_aapi_jail_rate) +
 
 # variable comparison chart
 comparison_chart <- ggplot(incarceration) +
-  geom_point(mapping = aes(x = aapi_jail_pop, y = black_jail_pop, color = year)) +
+  geom_point(mapping = aes(x = aapi_jail_pop, y = total_jail_pop, color = year)) +
   scale_x_continuous() +
   scale_y_continuous() +
 
   labs(
-    title = "Comparison of Asian American and Pacific Islander Jail Incarceration Population to Black Jail Incarceration Population",
+    title = "Comparison of Asian American and Pacific Islander Jail Incarceration Population to Total Jail Incarceration Population",
     x = "Asian Americans and Pacific Islanders Jail Incarceration Population",
-    y = "Black Jail Incarceration Population"
+    y = "Total Jail Incarceration Population"
   )
 
+# prepares the dataset for map
 map_aapi <- incarceration  %>%
   filter(year == 2016) %>%
   select(fips, aapi_jail_pop_rate)
@@ -71,9 +72,11 @@ county_shapes <- map_data("county") %>%
   unite(polyname, region, subregion, sep = ",") %>%
   left_join(county.fips, by = "polyname")
 
+# joins two dataset by fips code
 map_data <- county_shapes %>%
   left_join(map_aapi, by = "fips")
 
+# defines minimalist theme
 blank_theme <- theme_bw() +
   theme(
     axis.line = element_blank(),
@@ -86,7 +89,7 @@ blank_theme <- theme_bw() +
     panel.border = element_blank()
   )
 
-# map
+# map of aapi jail incarceration rate
 map <- ggplot(map_data) +
   geom_polygon(mapping = aes(x = long, y = lat, group = group,
                              fill = aapi_jail_pop_rate)
