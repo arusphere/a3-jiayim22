@@ -51,6 +51,16 @@ trends_chart <- ggplot(trend_mean_aapi_jail_rate) +
   )
 
 # variable comparison chart
+comparison_chart <- ggplot(incarceration) +
+  geom_point(mapping = aes(x = aapi_jail_pop, y = black_jail_pop, color = year)) +
+  scale_x_continuous() +
+  scale_y_continuous() +
+
+  labs(
+    title = "Comparison of Asian American and Pacific Islander Jail Incarceration Population to Black Jail Incarceration Population",
+    x = "Asian Americans and Pacific Islanders Jail Incarceration Population",
+    y = "Black Jail Incarceration Population"
+  )
 
 
 # map
